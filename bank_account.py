@@ -8,6 +8,13 @@ class AccountDB:
             self.account_database.append(account)
         else:
             print(account, "Duplicated account; nothing to be insert")
+
+    def delete(self, account):
+        index = self.__search_private(account.account_number)
+        if index != -1:
+            self.account_database.pop(index)
+        else:
+            print(account, "does not exist.")
     
     def __search_private(self, account_num):
         for i in range(len(self.account_database)):

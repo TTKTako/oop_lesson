@@ -3,8 +3,7 @@ import csv, os
 __location__ = os.path.realpath(
             os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-class data_processing:
-
+class TableDB:
     def __init__(self) -> None:
         self.cities = []
         with open(os.path.join(__location__, 'Cities.csv')) as f:
@@ -22,6 +21,22 @@ class data_processing:
         for city in self.cities:
             temps.append(float(city['temperature']))
         self.avg_temp = sum(temps)/len(temps)
+
+    def search(self, name: str = None):
+        if name is None:
+            raise ValueError("Expect 1 value: Got none")
+        if not isinstance(name, str):
+            raise TypeError("String input only")
+        for i in self.cities:
+            if i["country"] == name:
+                return i
+        return None
+
+class Table:
+    def __init__(self) -> None:
+        self.cities = TableDB().cities
+        self.countries = TableDB().countries
+        self.avg_temp = TableDB().avg_temp
 
     def get_avg_temp(self):
         # Print the average temperature of all the cities
@@ -96,7 +111,7 @@ class data_processing:
         return max(temps)
 
 
-a = data_processing()
+a = Table()
 
 print("Average all cities tempurature is: " + str(a.avg_temp))
 a.print_all_cities()
